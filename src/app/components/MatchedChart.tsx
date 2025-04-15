@@ -9,43 +9,46 @@ interface MatchedChartProps {
 }
 
 const MatchedChart: React.FC<MatchedChartProps> = ({ rawData }) => {
+    const [data, setData] = useState<MatchedChartData[]>([]);
+    useEffect(() => {
+        // Step 1: Extract dates
+        const dates = rawData.map((x: MatchedChartData) => x.date);
 
-    // Step 1: Extract dates
-    const dates = rawData.map((x: MatchedChartData) => x.date);
+        // Step 2: Remove duplicates and sort dates
+        const uniqueDates = Array.from(new Set(dates)).sort((a, b) => new Date(a).getTime() - new Date(b).getTime());
 
-    // Step 2: Remove duplicates and sort dates
-    const uniqueDates = Array.from(new Set(dates)).sort((a, b) => new Date(a).getTime() - new Date(b).getTime());
+        // Step 3: Define dataset types and labels
+        const datasetTypes = ['cycle', 'absent', 'combine', 'common', 'first', 'rfc', 'mnb', 'xgb'];
+        const datasetLabels = ['Cycle', 'Absent', 'Combine', 'Common', 'First', 'RFC', 'MNB', 'XGB'];
+        const colors = ['#ff0000', '#00ff00', '#400C85', '#0000ff', '#bc6c25', '#ff00ff', '#ff7f00', '#00ffff'];
 
-    // Step 3: Define dataset types and labels
-    const datasetTypes = ['cycle', 'absent', 'combine', 'common', 'first', 'rfc', 'mnb', 'xgb'];
-    const datasetLabels = ['Cycle', 'Absent', 'Combine', 'Common', 'First', 'RFC', 'MNB', 'XGB'];
-    const colors = ['#ff0000', '#00ff00', '#400C85', '#0000ff', '#bc6c25', '#ff00ff', '#ff7f00', '#00ffff'];
+        // Step 4: Prepare datasets
+        const datasets = datasetTypes.map((type, index) => ({
+            type,
+            label: datasetLabels[index],
+            color: colors[index],
+            data: uniqueDates.map((date) => {
+                const entry = rawData.find((x: MatchedChartData) => x.date === date && x.type === type);
+                return entry ? entry.count : 0; // Default to 0 if no data for the date
+            }),
+        }));
 
-    // Step 4: Prepare datasets
-    const datasets = datasetTypes.map((type, index) => ({
-        type,
-        label: datasetLabels[index],
-        color: colors[index],
-        data: uniqueDates.map((date) => {
-            const entry = rawData.find((x: MatchedChartData) => x.date === date && x.type === type);
-            return entry ? entry.count : 0; // Default to 0 if no data for the date
-        }),
-    }));
-
-    // Step 5: Transform data for Recharts
-    const transformedData = uniqueDates.map((date, dateIndex) => {
-        const entry: any = { date };
-        datasets.forEach((dataset) => {
-            entry[dataset.type] = dataset.data[dateIndex];
+        // Step 5: Transform data for Recharts
+        const transformedData = uniqueDates.map((date, dateIndex) => {
+            const entry: any = { date };
+            datasets.forEach((dataset) => {
+                entry[dataset.type] = dataset.data[dateIndex];
+            });
+            return entry;
         });
-        return entry;
-    });
+        setData(transformedData);
+    }, [rawData]);
 
     return (
         <div className="w-full h-96">
             <ResponsiveContainer>
                 <LineChart
-                    data={transformedData}
+                    data={data}
                     margin={{
                         top: 20,
                         right: 30,
