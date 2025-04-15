@@ -19,3 +19,9 @@ export interface ProfitChartBar {
     value: number;
     color: string;
 }
+
+export interface MatchedChartData {
+    date: string;
+    type: string;
+    count: number;
+}
