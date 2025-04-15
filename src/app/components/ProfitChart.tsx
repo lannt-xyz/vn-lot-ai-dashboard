@@ -16,36 +16,40 @@ const ProfitChart: React.FC<ProfitChartProps> = ({ rawData }) => {
         const totalWinning = rawData[key].find((item) => item.label === 'Total Winning')?.value || 0;
         const profit = totalWinning - totalPay;
         const color = profit > 0 ? '#82ca9d' : '#ff0000';
+        const formattedKey = key.charAt(0).toUpperCase() + key.slice(1);
 
         return {
-            name: key,
+            name: formattedKey,
             value: profit,
             color: color,
         };
     });
 
+    // Format numbers to Vietnamese currency
+    const formatCurrency = (value: number) =>
+        new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(value / 1000);
+
     return (
-        <div style={{ width: '100%', height: 400 }}>
+        <div className='w-full h-96'>
             <ResponsiveContainer>
                 <BarChart
                     data={transformedData}
                     margin={{
                         top: 20,
                         right: 30,
-                        left: 20,
+                        left: 40,
                         bottom: 5,
                     }}
                 >
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="name" />
-                    <YAxis />
-                    <Tooltip />
-                    <Legend />
+                    <YAxis tickFormatter={formatCurrency} />
+                    <Tooltip formatter={(value) => formatCurrency(Number(value))} />
                     <Bar dataKey="value">
                         {transformedData.map((entry, index) => (
                             <Cell
                                 key={`cell-${index}`}
-                                fill={entry.value > 0 ? '#82ca9d' : '#8884d8'} // 💡 Expression here
+                                fill={entry.value > 0 ? '#00ff0059' : '#ff000059'}
                             />
                         ))}
                     </Bar>
