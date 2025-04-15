@@ -25,10 +25,6 @@ const ProfitChart: React.FC<ProfitChartProps> = ({ rawData }) => {
         };
     });
 
-    // Format numbers to Vietnamese currency
-    const formatCurrency = (value: number) =>
-        new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(value / 1000);
-
     return (
         <div className='w-full h-96'>
             <ResponsiveContainer>
@@ -37,14 +33,14 @@ const ProfitChart: React.FC<ProfitChartProps> = ({ rawData }) => {
                     margin={{
                         top: 20,
                         right: 30,
-                        left: 40,
+                        left: 20,
                         bottom: 5,
                     }}
                 >
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="name" />
-                    <YAxis tickFormatter={formatCurrency} />
-                    <Tooltip formatter={(value) => formatCurrency(Number(value))} />
+                    <YAxis tickFormatter={(value: number) => new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(value / 1000)} />
+                    <Tooltip formatter={(value: number) => new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(value)} />
                     <Bar dataKey="value">
                         {transformedData.map((entry, index) => (
                             <Cell
