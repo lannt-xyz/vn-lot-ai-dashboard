@@ -1,5 +1,9 @@
+'use client';
+
+import { useState } from "react";
 import MatchedChart from "./components/charts/MatchedChart";
 import ProfitChart from "./components/charts/ProfitChart";
+import DatePicker from "./components/forms/DatePicker";
 import { ProfitChartData } from "./global";
 
 
@@ -643,8 +647,13 @@ const matchedData = [
     ]
 
 export default function Home() {
+  const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen p-4">
+      <div className="flex flex-row w-full justify-start mb-4">
+        <DatePicker showMonthYearPicker={true} selected={selectedDate} onChanged={setSelectedDate} width="w-32" />
+      </div>
       <ProfitChart rawData={profitData} />
       <MatchedChart rawData={matchedData} />
     </div>
