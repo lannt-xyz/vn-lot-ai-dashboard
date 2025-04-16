@@ -2,7 +2,7 @@
 
 import React, { useEffect } from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Cell } from 'recharts';
-import { ProfitChartBar } from '../global';
+import { ProfitChartBar } from '../../global';
 
 interface ProfitChartProps {
     rawData: Record<string, { color: string; label: string; value: number }[]>;

@@ -1,5 +1,5 @@
-import MatchedChart from "./components/MatchedChart";
-import ProfitChart from "./components/ProfitChart";
+import MatchedChart from "./components/charts/MatchedChart";
+import ProfitChart from "./components/charts/ProfitChart";
 import { ProfitChartData } from "./global";
 
 

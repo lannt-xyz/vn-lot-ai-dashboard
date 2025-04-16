@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import { MatchedChartData } from '../global';
+import { MatchedChartData } from '../../global';
 
 interface MatchedChartProps {
     rawData: MatchedChartData[];
