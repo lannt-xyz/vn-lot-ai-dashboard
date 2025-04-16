@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, LabelList } from 'recharts';
 import { MatchedChartData } from '../../global';
 
 interface MatchedChartProps {
@@ -44,6 +44,21 @@ const MatchedChart: React.FC<MatchedChartProps> = ({ rawData }) => {
         setData(transformedData);
     }, [rawData]);
 
+    const renderCustomLabel = (props: any) => {
+        const { x, y, value } = props;
+        return (
+            <text
+                x={x}
+                y={y - 10} // Adjust vertical position slightly above the point
+                fill="gray" // Set label color to gray
+                fontSize={12} // Adjust font size
+                textAnchor="middle" // Center the text horizontally
+            >
+                {value}
+            </text>
+        );
+    };
+
     return (
         <div className="w-full h-96">
             <ResponsiveContainer>
@@ -69,7 +84,12 @@ const MatchedChart: React.FC<MatchedChartProps> = ({ rawData }) => {
                             stroke={['#ff0000', '#00ff00', '#400C85', '#0000ff', '#bc6c25', '#ff00ff', '#ff7f00', '#00ffff'][index]}
                             strokeWidth={2}
                             dot={false}
-                        />
+                        >
+                            <LabelList
+                                dataKey={type}
+                                content={renderCustomLabel}
+                            />
+                        </Line>
                     ))}
                 </LineChart>
             </ResponsiveContainer>
