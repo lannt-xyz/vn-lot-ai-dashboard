@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect } from 'react';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Cell } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Cell, LabelList } from 'recharts';
 import { ProfitChartBar } from '../../global';
 
 interface ProfitChartProps {
@@ -29,6 +29,23 @@ const ProfitChart: React.FC<ProfitChartProps> = ({ rawData }) => {
         setData(transformedData);
     }, [rawData]);
 
+    const renderCustomLabel = (props: any) => {
+        const { x, y, width, value } = props;
+        const dy = value < 0 ? 14 : -4;
+        return (
+            <text
+                x={x + width / 2}
+                y={y}
+                dy={dy}
+                fill="gray"
+                fontSize={12}
+                textAnchor="middle"
+            >
+                {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(value)}
+            </text>
+        );
+    };
+
     return (
         <div className='w-full h-96'>
             <ResponsiveContainer>
@@ -52,6 +69,10 @@ const ProfitChart: React.FC<ProfitChartProps> = ({ rawData }) => {
                                 fill={entry.value > 0 ? '#00ff0059' : '#ff000059'}
                             />
                         ))}
+                        <LabelList
+                            dataKey="value"
+                            content={renderCustomLabel}
+                        />
                     </Bar>
                 </BarChart>
             </ResponsiveContainer>
