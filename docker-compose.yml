@@ -2,7 +2,7 @@ version: '3'
 
 services:
   vn-lot-ai-dashboard:
-    image: vn-lot-ai-dashboard:v0.0.1-alpha
+    image: lanntxyz/vn-lot-ai-dashboard:v0.0.1-alpha
     restart: always
     ports:
       - "3000:3000"
