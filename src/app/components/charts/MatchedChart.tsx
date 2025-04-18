@@ -5,10 +5,10 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsi
 import { MatchedChartData } from '../../global';
 
 interface MatchedChartProps {
-    rawData: MatchedChartData[];
+    rawData?: MatchedChartData[] | undefined;
 }
 
-const MatchedChart: React.FC<MatchedChartProps> = ({ rawData }) => {
+const MatchedChart: React.FC<MatchedChartProps> = ({ rawData = [] }) => {
     const [data, setData] = useState<MatchedChartData[]>([]);
     useEffect(() => {
         // Step 1: Extract dates
