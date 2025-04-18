@@ -33,7 +33,7 @@ export const DataTable = forwardRef<DataTableRef, DataTableProps>((props) => {
       <div className="w-full bg-white rounded border border-gray-_5 px-5 py-2">
         <div className="flex-col flex w-full gap-4">
           <div className={`overflow-y-auto ${width ?? 'w-full'} ${height ?? 'h-[76vh]'}`} >
-            <table className="table-auto font-light w-full text-sm">
+            <table className="table-auto font-light w-full">
               <thead className={`sticky top-0 ${background ?? 'bg-white'}`}>
                 <tr className="text-left">
                   {header &&
