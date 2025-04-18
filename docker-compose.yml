@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+  vn-lot-ai-dashboard:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: vn-lot-ai-dashboard
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+    env_file:
+      - .env.example
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
