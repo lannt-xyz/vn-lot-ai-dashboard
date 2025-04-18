@@ -6,6 +6,7 @@ import theme from '../theme';
 import DatePickerWrapper from './components/forms/DatePickerWrapper';
 import "./globals.css";
 import { StoreProvider } from "./StoreProvider";
+import SideNav from './components/navigation/SideNav';
 const roboto = Roboto({
   weight: ['300', '400', '500', '700'],
   subsets: ['latin'],
@@ -41,11 +42,18 @@ export default function RootLayout({
         <StoreProvider>
           <AppRouterCacheProvider options={{ enableCssLayer: true }}>
             <ThemeProvider theme={theme}>
-              <div className="flex flex-row w-full justify-start mb-4">
-                <DatePickerWrapper />
-              </div>
-              <div className="flex flex-col items-center justify-center">
-                {children}
+              <div className='p-4'>
+                <div className="flex flex-row w-full gap-1">
+                  <div className='flex flex-row w-1/2 justify-start items-start'>
+                    <SideNav />
+                  </div>
+                  <div className='flex flex-row w-1/2 justify-end items-center'>
+                    <DatePickerWrapper />
+                  </div>
+                </div>
+                <div className="flex flex-col items-center justify-center">
+                  {children}
+                </div>
               </div>
             </ThemeProvider>
           </AppRouterCacheProvider>

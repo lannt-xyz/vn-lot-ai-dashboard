@@ -1,8 +1,13 @@
 'use client';
 
-import React from "react";
+import React, { use, useEffect } from "react";
 import DataTable from "../components/table/DataTable";
 import { useLazyGetTicketsQuery } from "../apis/ticket";
+import { selectSelectedDate } from "../redux/slice/yearMonthSlice";
+import { useSelector } from "react-redux";
+import { format } from "date-fns";
+import { DATE_FORMATS } from "../utils/constant";
+import { getMonthStartEndFromDate } from "../utils/DateUtils";
 
 const header = [
   { key: 'date', text: 'Date', widthClass: 'w-24' },
@@ -16,6 +21,18 @@ const header = [
 
 export default function Tickets() {
   const [getTicketTrigger, { data: ticketData }] = useLazyGetTicketsQuery();
+  const selectedDate = useSelector(selectSelectedDate);
+  useEffect(() => {
+    if (!selectedDate) {
+      return;
+    }
+    const { monthStartDate, monthEndDate } = getMonthStartEndFromDate(selectedDate);
+
+    getTicketTrigger({
+      startDate: format(monthStartDate, DATE_FORMATS.YYYYMMDD_DASH),
+      endDate: format(monthEndDate, DATE_FORMATS.YYYYMMDD_DASH),
+    });
+  }, [selectedDate]);
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen p-4">

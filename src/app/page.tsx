@@ -8,6 +8,7 @@ import { format } from "date-fns";
 import { DATE_FORMATS } from "./utils/constant";
 import { useSelector } from "react-redux";
 import { selectSelectedDate } from "./redux/slice/yearMonthSlice";
+import { getMonthStartEndFromDate } from "./utils/DateUtils";
 
 export default function Home() {
   const [triggerGetProfit, { data: profitData }] = useLazyGetProfitQuery();
@@ -15,16 +16,7 @@ export default function Home() {
   const selectedDate = useSelector(selectSelectedDate);
 
   useEffect(() => {
-    const monthStartDate = selectedDate ? new Date(selectedDate) : new Date();
-    monthStartDate.setDate(1);
-
-    const monthEndDate = selectedDate ? new Date(selectedDate) : new Date();
-    monthEndDate.setMonth(monthEndDate.getMonth() + 1);
-    monthEndDate.setDate(0);
-    // if the monthEndDate is greater than the current date, set it to the current date
-    if (monthEndDate > new Date()) {
-      monthEndDate.setDate(new Date().getDate());
-    }
+    const { monthStartDate, monthEndDate } = getMonthStartEndFromDate(selectedDate);
 
     triggerGetProfit({
       startDate: format(monthStartDate, DATE_FORMATS.YYYYMMDD_DASH),
@@ -38,7 +30,7 @@ export default function Home() {
   }, [selectedDate, triggerGetProfit, triggerGetMatched]);
 
   return (
-    <div className="flex flex-col items-center justify-center w-full border border-red-500">
+    <div className="flex flex-col items-center justify-center w-full">
       <ProfitChart rawData={profitData || {}} />
       <MatchedChart rawData={matchedData || []} />
     </div>

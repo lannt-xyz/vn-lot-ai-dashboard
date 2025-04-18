@@ -13,7 +13,7 @@ const DatePickerWrapper: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-row w-full justify-start mb-4">
+    <div className="flex flex-row justify-start">
       <DatePicker
         selected={new Date()}
         showMonthYearPicker={true}
