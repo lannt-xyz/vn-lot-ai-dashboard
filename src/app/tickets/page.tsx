@@ -1,6 +1,6 @@
 'use client';
 
-import React, { use, useEffect } from "react";
+import React, { useEffect } from "react";
 import DataTable from "../components/table/DataTable";
 import { useLazyGetTicketsQuery } from "../apis/ticket";
 import { selectSelectedDate } from "../redux/slice/yearMonthSlice";
@@ -32,7 +32,7 @@ export default function Tickets() {
       startDate: format(monthStartDate, DATE_FORMATS.YYYYMMDD_DASH),
       endDate: format(monthEndDate, DATE_FORMATS.YYYYMMDD_DASH),
     });
-  }, [selectedDate]);
+  }, [selectedDate, getTicketTrigger]);
 
   return (
     <div className="flex flex-col w-full h-full pt-4">

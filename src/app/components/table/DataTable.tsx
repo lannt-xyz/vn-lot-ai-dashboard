@@ -1,4 +1,4 @@
-import React, { forwardRef, useEffect, useImperativeHandle } from "react";
+import React, { forwardRef } from "react";
 
 import { DataRow, DataHeader } from "@/app/global.d";
 
@@ -19,74 +19,14 @@ export interface DataTableRef {
   removeSelectedItem: (id: string) => void;
 }
 
-export const DataTable = forwardRef<DataTableRef, DataTableProps>((props, ref) => {
+export const DataTable = forwardRef<DataTableRef, DataTableProps>((props) => {
   const {
     header,
     data,
-    dataKeyIdentity,
-    showCheckbox,
-    selectedChange,
     width,
     height,
     background,
   } = props;
-  const [selectedDataRows, setSelectedDataRows] = React.useState<DataRow[]>([]);
-  const [currentPage, setCurrentPage] = React.useState(1);
-  const [allSelected, setAllSelected] = React.useState(false);
-
-
-  useImperativeHandle(ref, () => ({
-    clearSelectedDataRows: () => {
-      setSelectedDataRows([]);
-    },
-    removeSelectedItem: (id: string) => {
-      setSelectedDataRows((prevSelectedDataRows) => {
-        return prevSelectedDataRows.filter((row) => row[dataKeyIdentity] !== id);
-      });
-    },
-  }));
-
-  const isSelectedAll = () => selectedDataRows.filter((row) => data.map((d) => d[dataKeyIdentity] as string).includes(row[dataKeyIdentity] as string)).length === data.length;
-  useEffect(() => {
-    if (data.length === 0) {
-      return;
-    }
-    setAllSelected(isSelectedAll());
-  }, [selectedDataRows, data, dataKeyIdentity]);
-
-  useEffect(() => {
-    if (selectedChange) {
-      selectedChange(selectedDataRows);
-    }
-  }, [selectedDataRows, selectedChange]);
-
-  const handleCheckboxChange = (row: DataRow, checked: boolean) => {
-    setSelectedDataRows((prevSelectedDataRows) => {
-      const updatedSelectedDataRows = new Set(prevSelectedDataRows);
-      if (checked) {
-        updatedSelectedDataRows.add(row);
-      } else {
-        updatedSelectedDataRows.delete(row);
-      }
-      return Array.from(updatedSelectedDataRows);
-    });
-  };
-
-  function handleSelectAll(id: string, checked: boolean): void {
-    if (checked) {
-      setSelectedDataRows((prevSelectedDataRows) => {
-        const updatedSelectedDataRows = new Set(prevSelectedDataRows);
-        data.forEach((row) => updatedSelectedDataRows.add(row));
-        return Array.from(updatedSelectedDataRows);
-      });
-    } else {
-      const allIds = new Set(data.map((d) => d[dataKeyIdentity] as string));
-      setSelectedDataRows((prevSelectedDataRows) => {
-        return prevSelectedDataRows.filter((r) => !allIds.has(r[dataKeyIdentity] as string));
-      });
-    }
-    setAllSelected(checked);
-  }
 
   return (
     <>

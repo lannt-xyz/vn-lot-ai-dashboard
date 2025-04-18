@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useEffect } from 'react';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Cell, LabelList } from 'recharts';
+import React, { useEffect, useState } from 'react';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell, LabelList } from 'recharts';
 import { ProfitChartBar } from '../../global';
 
 interface ProfitChartProps {
@@ -10,12 +10,12 @@ interface ProfitChartProps {
 
 const ProfitChart: React.FC<ProfitChartProps> = ({ rawData }) => {
 
-    if (!rawData) {
-        return <div className='w-full h-96 flex items-center justify-center'>Loading...</div>;
-    }
-
-    const [data, setData] = React.useState<ProfitChartBar[]>([]);
+    const [data, setData] = useState<ProfitChartBar[]>([]);
     useEffect(() => {
+        if (!rawData) {
+            return;
+        }
+
         // Transform data for the chart
         const transformedData: ProfitChartBar[] = Object.keys(rawData).map((key) => {
             const totalPay = rawData[key].find((item) => item.label === 'Total Pay')?.value || 0;
@@ -33,6 +33,11 @@ const ProfitChart: React.FC<ProfitChartProps> = ({ rawData }) => {
         setData(transformedData);
     }, [rawData]);
 
+    if (!rawData) {
+        return <div className='w-full h-96 flex items-center justify-center'>Loading...</div>;
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const renderCustomLabel = (props: any) => {
         const { x, y, width, value } = props;
         const dy = value < 0 ? 14 : -4;

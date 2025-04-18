@@ -35,6 +35,7 @@ const MatchedChart: React.FC<MatchedChartProps> = ({ rawData = [] }) => {
 
         // Step 5: Transform data for Recharts
         const transformedData = uniqueDates.map((date, dateIndex) => {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             const entry: any = { date };
             datasets.forEach((dataset) => {
                 entry[dataset.type] = dataset.data[dateIndex];
@@ -44,6 +45,7 @@ const MatchedChart: React.FC<MatchedChartProps> = ({ rawData = [] }) => {
         setData(transformedData);
     }, [rawData]);
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const renderCustomLabel = (props: any) => {
         const { x, y, value } = props;
         return (

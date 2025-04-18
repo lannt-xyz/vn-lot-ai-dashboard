@@ -3,6 +3,7 @@ import { baseApi } from "./baseApi";
 
 const apiEndPoint = "/v2";
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export const dashboardApiSlice = baseApi.injectEndpoints({
     endpoints: (build) => ({
         getProfit: build.query<ProfitChartData, { startDate: string, endDate: string }>({
