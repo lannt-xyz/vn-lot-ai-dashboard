@@ -13,11 +13,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Check if secrets exist
-        run: |
-          if [ -z "${{ secrets.DOCKERHUB_USERNAME }}" ]; then echo "Username secret is missing"; fi
-          if [ -z "${{ secrets.DOCKERHUB_TOKEN }}" ]; then echo "Token secret is missing"; fi
-
       - name: Log in to Docker Hub
         uses: docker/login-action@v3
         with:
