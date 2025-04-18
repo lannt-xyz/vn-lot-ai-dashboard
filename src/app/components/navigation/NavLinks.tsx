@@ -3,17 +3,21 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import clsx from 'clsx';
+import {
+    PresentationChartLineIcon,
+    TicketIcon
+  } from "@heroicons/react/24/solid";
 
 const links = [
     {
         name: 'Dashboard',
         href: '/',
-        // icon: Users,
+        icon: PresentationChartLineIcon,
     },
     {
         name: 'Tickets',
         href: '/tickets',
-        // icon: LanguageSetting,
+        icon: TicketIcon,
     },
 ];
 
@@ -23,7 +27,7 @@ export default function NavLinks() {
     return (
         <>
             {links.map((link) => {
-                // const LinkIcon = link.icon;
+                const LinkIcon = link.icon;
                 return (
                     <Link
                         key={link.name}
@@ -35,7 +39,7 @@ export default function NavLinks() {
                             },
                         )}
                     >
-                        {/* <LinkIcon className="w-5" /> */}
+                        <LinkIcon className="w-5" />
                         <p className="block">{link.name}</p>
                     </Link>
                 );
