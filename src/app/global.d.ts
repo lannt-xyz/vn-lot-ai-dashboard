@@ -25,3 +25,26 @@ export interface MatchedChartData {
     type: string;
     count: number;
 }
+
+export interface DataRow {
+    [key: string]: string | ReactNode;
+}
+
+export interface DataHeader {
+    key: string;
+    text: string;
+    widthClass?: string;
+    align?: 'left' | 'center' | 'right';
+    dataAlign?: 'left' | 'center' | 'right';
+    columnType?: 'text' | 'node';
+}
+
+export interface Ticket {
+    date: string;
+    cityCode: string;
+    type: string;
+    lotNumber: string;
+    matchedCount: number;
+    pay: number;
+    win: number;
+}

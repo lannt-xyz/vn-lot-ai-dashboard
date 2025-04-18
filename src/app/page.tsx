@@ -1,17 +1,18 @@
 'use client';
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import MatchedChart from "./components/charts/MatchedChart";
 import ProfitChart from "./components/charts/ProfitChart";
-import DatePicker from "./components/forms/DatePicker";
 import { useLazyGetMatchedQuery, useLazyGetProfitQuery } from "./apis/dashboard";
 import { format } from "date-fns";
 import { DATE_FORMATS } from "./utils/constant";
+import { useSelector } from "react-redux";
+import { selectSelectedDate } from "./redux/slice/yearMonthSlice";
 
 export default function Home() {
-  const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
   const [triggerGetProfit, { data: profitData }] = useLazyGetProfitQuery();
   const [triggerGetMatched, { data: matchedData }] = useLazyGetMatchedQuery();
+  const selectedDate = useSelector(selectSelectedDate);
 
   useEffect(() => {
     const monthStartDate = selectedDate ? new Date(selectedDate) : new Date();
@@ -37,12 +38,9 @@ export default function Home() {
   }, [selectedDate, triggerGetProfit, triggerGetMatched]);
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen p-4">
-      <div className="flex flex-row w-full justify-start mb-4">
-        <DatePicker showMonthYearPicker={true} selected={selectedDate} onChanged={setSelectedDate} width="w-32" />
-      </div>
-      <ProfitChart rawData={profitData} />
-      <MatchedChart rawData={matchedData} />
+    <div className="flex flex-col items-center justify-center w-full border border-red-500">
+      <ProfitChart rawData={profitData || {}} />
+      <MatchedChart rawData={matchedData || []} />
     </div>
   );
 }

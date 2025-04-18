@@ -3,6 +3,7 @@ import { ThemeProvider } from '@mui/material/styles';
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Roboto } from "next/font/google";
 import theme from '../theme';
+import DatePickerWrapper from './components/forms/DatePickerWrapper';
 import "./globals.css";
 import { StoreProvider } from "./StoreProvider";
 const roboto = Roboto({
@@ -40,7 +41,12 @@ export default function RootLayout({
         <StoreProvider>
           <AppRouterCacheProvider options={{ enableCssLayer: true }}>
             <ThemeProvider theme={theme}>
-              {children}
+              <div className="flex flex-row w-full justify-start mb-4">
+                <DatePickerWrapper />
+              </div>
+              <div className="flex flex-col items-center justify-center">
+                {children}
+              </div>
             </ThemeProvider>
           </AppRouterCacheProvider>
         </StoreProvider>

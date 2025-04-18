@@ -1,11 +1,13 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import apiErrorReducer from "./slice/apiErrorSlice";
 import loadingReducer from "./slice/loadingSlice";
+import yearMonthReducer from "./slice/yearMonthSlice";
 import { baseApi } from "../apis/baseApi";
 
 const rootReducer = combineReducers({
   apiError: apiErrorReducer,
   loading: loadingReducer,
+  yearMonth: yearMonthReducer,
   [baseApi.reducerPath]: baseApi.reducer,
 });
 export type RootState = ReturnType<typeof rootReducer>;
