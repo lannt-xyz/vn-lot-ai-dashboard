@@ -1,10 +1,10 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
-import { Roboto } from 'next/font/google';
 import { ThemeProvider } from '@mui/material/styles';
+import type { Metadata } from "next";
+import { Geist, Geist_Mono, Roboto } from "next/font/google";
 import theme from '../theme';
+import "./globals.css";
+import { StoreProvider } from "./StoreProvider";
 const roboto = Roboto({
   weight: ['300', '400', '500', '700'],
   subsets: ['latin'],
@@ -37,11 +37,13 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <AppRouterCacheProvider options={{ enableCssLayer: true }}>
-          <ThemeProvider theme={theme}>
-            {children}
-          </ThemeProvider>
-        </AppRouterCacheProvider>
+        <StoreProvider>
+          <AppRouterCacheProvider options={{ enableCssLayer: true }}>
+            <ThemeProvider theme={theme}>
+              {children}
+            </ThemeProvider>
+          </AppRouterCacheProvider>
+        </StoreProvider>
       </body>
     </html>
   );

@@ -5,10 +5,14 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsive
 import { ProfitChartBar } from '../../global';
 
 interface ProfitChartProps {
-    rawData: Record<string, { color: string; label: string; value: number }[]>;
+    rawData?: Record<string, { color: string; label: string; value: number }[]>;
 }
 
 const ProfitChart: React.FC<ProfitChartProps> = ({ rawData }) => {
+
+    if (!rawData) {
+        return <div className='w-full h-96 flex items-center justify-center'>Loading...</div>;
+    }
 
     const [data, setData] = React.useState<ProfitChartBar[]>([]);
     useEffect(() => {

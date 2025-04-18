@@ -1,47 +1,13 @@
 'use client';
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import MatchedChart from "./components/charts/MatchedChart";
 import ProfitChart from "./components/charts/ProfitChart";
 import DatePicker from "./components/forms/DatePicker";
-import { ProfitChartData } from "./global";
+import { useLazyGetProfitQuery } from "./apis/dashboard";
+import { format } from "date-fns";
+import { DATE_FORMATS } from "./utils/constant";
 
-
-// Original data
-const profitData: ProfitChartData = {
-  absent: [
-    { color: '#FF0000', label: 'Total Pay', value: 8460000.0 },
-    { color: '#00FF00', label: 'Total Winning', value: 4750000.0 },
-  ],
-  combine: [
-    { color: '#FF0000', label: 'Total Pay', value: 8460000.0 },
-    { color: '#00FF00', label: 'Total Winning', value: 3800000.0 },
-  ],
-  common: [
-    { color: '#FF0000', label: 'Total Pay', value: 8460000.0 },
-    { color: '#00FF00', label: 'Total Winning', value: 8550000.0 },
-  ],
-  cycle: [
-    { color: '#FF0000', label: 'Total Pay', value: 8460000.0 },
-    { color: '#00FF00', label: 'Total Winning', value: 7600000.0 },
-  ],
-  first: [
-    { color: '#FF0000', label: 'Total Pay', value: 8460000.0 },
-    { color: '#00FF00', label: 'Total Winning', value: 8550000.0 },
-  ],
-  mnb: [
-    { color: '#FF0000', label: 'Total Pay', value: 8460000.0 },
-    { color: '#00FF00', label: 'Total Winning', value: 9500000.0 },
-  ],
-  rfc: [
-    { color: '#FF0000', label: 'Total Pay', value: 8460000.0 },
-    { color: '#00FF00', label: 'Total Winning', value: 15200000.0 },
-  ],
-  xgb: [
-    { color: '#FF0000', label: 'Total Pay', value: 8460000.0 },
-    { color: '#00FF00', label: 'Total Winning', value: 11400000.0 },
-  ],
-};
 
 const matchedData = [
   {
@@ -648,6 +614,29 @@ const matchedData = [
 
 export default function Home() {
   const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
+  const [triggerGetProfit, { data: profitData }] = useLazyGetProfitQuery();
+  useEffect(() => {
+    const monthStartDate = selectedDate ? new Date(selectedDate) : new Date();
+    monthStartDate.setDate(1);
+
+    const monthEndDate = selectedDate ? new Date(selectedDate) : new Date();
+    monthEndDate.setMonth(monthEndDate.getMonth() + 1);
+    monthEndDate.setDate(0);
+
+    // if the monthEndDate is greater than the current date, set it to the current date
+    if (monthEndDate > new Date()) {
+      monthEndDate.setDate(new Date().getDate());
+    }
+
+    triggerGetProfit({
+      startDate: format(monthStartDate, DATE_FORMATS.YYYYMMDD_DASH),
+      endDate: format(monthEndDate, DATE_FORMATS.YYYYMMDD_DASH),
+    }).then((response) => {
+      if (response.data) {
+        console.log("Profit Chart Data", response.data);
+      }
+    });
+  }, [selectedDate, triggerGetProfit]);
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen p-4">
