@@ -24,7 +24,10 @@ jobs:
         run: echo "TAG=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
 
       - name: Build the Docker image
-        run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/vn-lot-ai-dashboard:${{ env.TAG }} .
+        run: |
+          docker build \
+            --build-arg NEXT_PUBLIC_API_BASE_URL=${{ vars.NEXT_PUBLIC_API_BASE_URL }} \
+            -t ${{ secrets.DOCKERHUB_USERNAME }}/vn-lot-ai-dashboard:${{ env.TAG }} .
 
       - name: Push the Docker image
         run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/vn-lot-ai-dashboard:${{ env.TAG }}
