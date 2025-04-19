@@ -28,14 +28,16 @@ export default function NavLinks() {
         <>
             {links.map((link) => {
                 const LinkIcon = link.icon;
+                const isActive = pathname === link.href;
                 return (
                     <Link
                         key={link.name}
                         href={link.href}
                         className={clsx(
-                            'flex h-10 items-center justify-start gap-1 p-3 hover:bg-gray-200 rounded-md',
+                            'flex h-10 items-center justify-start gap-1 p-3 rounded-md',
                             {
-                                'bg-gray-300 dark:bg-gray-600': pathname === link.href,
+                                'bg-gray-300 dark:bg-gray-600': isActive,
+                                'hover:bg-gray-200 dark:hover:bg-gray-800': !isActive,
                             },
                         )}
                     >

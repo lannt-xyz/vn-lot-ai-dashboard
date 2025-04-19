@@ -10,7 +10,7 @@ import { DATE_FORMATS } from "../utils/constant";
 import { getMonthStartEndFromDate } from "../utils/DateUtils";
 
 const header = [
-  { key: 'date', text: 'Date', widthClass: 'w-24' },
+  { key: 'date', text: 'Date', widthClass: 'w-32' },
   { key: 'cityCode', text: 'City Code', widthClass: 'w-32' },
   { key: 'type', text: 'Type', widthClass: 'w-24' },
   { key: 'lotNumber', text: 'Lot Number', widthClass: 'w-24' },
