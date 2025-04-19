@@ -36,10 +36,10 @@ export default function RootLayout({
             <ThemeProvider theme={theme}>
               <div className='p-4'>
                 <div className="flex flex-row w-full gap-1">
-                  <div className='flex flex-row w-1/2 justify-start items-start'>
+                  <div className='flex flex-row items-center'>
                     <SideNav />
                   </div>
-                  <div className='flex flex-row w-1/2 justify-end items-center'>
+                  <div className='flex flex-row items-center pl-6'>
                     <DatePickerWrapper />
                   </div>
                 </div>
