@@ -1,23 +1,26 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import DatePicker from './DatePicker';
 import { useDispatch } from 'react-redux';
 import { setSelected } from '@/app/redux/slice/yearMonthSlice';
 
 const DatePickerWrapper: React.FC = () => {
-  const dispatch = useDispatch();
+  const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
 
-  const handleDateChange = (value: Date | null) => {
-    dispatch(setSelected(value || new Date()));
-  };
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (selectedDate) {
+      dispatch(setSelected(selectedDate ?? new Date()));
+    }
+  }, [dispatch, selectedDate]);
 
   return (
     <div className="flex flex-row justify-start">
       <DatePicker
-        selected={new Date()}
+        selected={selectedDate}
         showMonthYearPicker={true}
-        onChanged={handleDateChange}
+        onChanged={setSelectedDate}
         width="w-32"
       />
     </div>
