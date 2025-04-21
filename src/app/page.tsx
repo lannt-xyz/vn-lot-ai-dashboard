@@ -49,8 +49,12 @@ export default function Home() {
 
   return (
     <div className="flex flex-col items-center justify-center w-full">
-      <ProfitChart rawData={profitData ?? {}} />
-      <MatchedChart rawData={matchedData ?? []} />
+      <div className="flex h-full w-full">
+        <ProfitChart rawData={profitData ?? {}} />
+      </div>
+      <div className="flex h-full w-full">
+        <MatchedChart rawData={matchedData ?? []} />
+      </div>
     </div>
   );
 }
