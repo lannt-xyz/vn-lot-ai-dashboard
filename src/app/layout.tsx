@@ -1,4 +1,3 @@
-// import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
 import { ThemeProvider } from '@mui/material/styles';
 import type { Metadata } from "next";
 import theme from '../theme';
@@ -7,6 +6,7 @@ import SideNav from './components/navigation/SideNav';
 import CircularProgress from './components/progess/CircularProgress';
 import "./globals.css";
 import { StoreProvider } from "./StoreProvider";
+import DarkModeScript from './DarkModeScript';
 
 export const metadata: Metadata = {
   title: "Vnlot Dashboard",
@@ -18,8 +18,11 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
+  const isDarkMode = false;
+
   return (
-    <html lang="en">
+    <html lang="en" className={isDarkMode ? "dark" : ""}>
       <head>
         {/* Add Google Fonts link */}
         <link
@@ -32,25 +35,24 @@ export default function RootLayout({
         />
       </head>
       <body className={`antialiased`}>
+        <DarkModeScript />
         <StoreProvider>
-          {/* <AppRouterCacheProvider options={{ enableCssLayer: true }}> */}
-            <ThemeProvider theme={theme}>
-              <div className='p-4'>
-                <div className="flex flex-row w-full gap-1">
-                  <div className='flex flex-row items-center'>
-                    <SideNav />
-                  </div>
-                  <div className='flex flex-row items-center pl-6'>
-                    <DatePickerWrapper />
-                  </div>
+          <ThemeProvider theme={theme}>
+            <div className='p-4'>
+              <div className="flex flex-row w-full gap-1">
+                <div className='flex flex-row items-center'>
+                  <SideNav />
                 </div>
-                <div className="flex flex-col items-center justify-center">
-                  {children}
+                <div className='flex flex-row items-center pl-6'>
+                  <DatePickerWrapper />
                 </div>
               </div>
-              <CircularProgress />
-            </ThemeProvider>
-          {/* </AppRouterCacheProvider> */}
+              <div className="flex flex-col items-center justify-center">
+                {children}
+              </div>
+            </div>
+            <CircularProgress />
+          </ThemeProvider>
         </StoreProvider>
       </body>
     </html>
