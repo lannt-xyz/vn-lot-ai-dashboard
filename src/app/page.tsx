@@ -9,11 +9,29 @@ import { DATE_FORMATS } from "./utils/constant";
 import { useSelector } from "react-redux";
 import { selectSelectedDate } from "./redux/slice/yearMonthSlice";
 import { getMonthStartEndFromDate } from "./utils/DateUtils";
+import useLoading from "./hook/useLoading";
 
 export default function Home() {
-  const [triggerGetProfit, { data: profitData }] = useLazyGetProfitQuery();
-  const [triggerGetMatched, { data: matchedData }] = useLazyGetMatchedQuery();
+  const [triggerGetProfit, { isFetching: profitFetching, data: profitData }] = useLazyGetProfitQuery();
+  const [triggerGetMatched, { isFetching: matchedFetching, data: matchedData }] = useLazyGetMatchedQuery();
   const selectedDate = useSelector(selectSelectedDate);
+  const {showLoading, hideLoading} = useLoading();
+
+  useEffect(() => {
+    if (profitFetching) {
+      showLoading();
+    } else {
+      hideLoading();
+    }
+  }, [profitFetching]);
+
+  useEffect(() => {
+    if (matchedFetching) {
+      showLoading();
+    } else {
+      hideLoading();
+    }
+  }, [matchedFetching]);
 
   useEffect(() => {
     const { monthStartDate, monthEndDate } = getMonthStartEndFromDate(selectedDate);

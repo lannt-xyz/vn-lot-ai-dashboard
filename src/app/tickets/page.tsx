@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 import { format } from "date-fns";
 import { DATE_FORMATS } from "../utils/constant";
 import { getMonthStartEndFromDate } from "../utils/DateUtils";
+import useLoading from "../hook/useLoading";
 
 const header = [
   { key: 'date', text: 'Date', widthClass: 'w-32' },
@@ -20,8 +21,18 @@ const header = [
 ];
 
 export default function Tickets() {
-  const [getTicketTrigger, { data: ticketData }] = useLazyGetTicketsQuery();
+  const [getTicketTrigger, { isFetching, data: ticketData }] = useLazyGetTicketsQuery();
   const selectedDate = useSelector(selectSelectedDate);
+
+  const {showLoading, hideLoading} = useLoading();
+  useEffect(() => {
+    if (isFetching) {
+      showLoading();
+    } else {
+      hideLoading();
+    }
+  }, [isFetching]);
+
   useEffect(() => {
     if (!selectedDate) {
       return;
