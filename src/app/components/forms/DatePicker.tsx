@@ -6,6 +6,10 @@ import { format } from 'date-fns';
 import { enUS } from 'date-fns/locale/en-US';
 import ReactDatePicker, { registerLocale } from 'react-datepicker';
 
+import {
+    CalendarDaysIcon
+  } from "@heroicons/react/24/solid";
+
 import { DATE_FORMATS, DEFAULT_VALUES } from '@/app/utils/constant';
 import React, { useEffect, useRef, useState } from 'react';
 import IconButton from './IconButton';
@@ -71,7 +75,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
                 ref={datePickerRef}
                 selected={selectedDate}
                 onChange={handleChange}
-                className={`p-2 pl-8 border-2 border-gray-300 dark:bg-gray-600 rounded-md h-8 ${width}`}
+                className={`p-2 pl-8 border-2 border-gray-300 dark:bg-gray-600 rounded-md h-8 ${width} focus:outline-none focus:ring-0`}
                 dateFormat={dateFormat}
                 placeholderText='Select date'
                 locale={DEFAULT_VALUES.LOCALE}
@@ -81,8 +85,9 @@ const DatePicker: React.FC<DatePickerProps> = ({
                 showMonthYearPicker={showMonthYearPicker}
             />
             <IconButton
-                icon="/icons/calendar.svg"
-                className="absolute w-4 h-4 left-2 transform top-4 -translate-y-1/2 cursor-pointer"
+                icon={CalendarDaysIcon}
+                // icon='/icons/calendar.svg'
+                className="absolute left-2 transform top-4 -translate-y-1/2 cursor-pointer"
                 onClick={handleIconClick}
             />
             <input

@@ -5,7 +5,8 @@ import { usePathname } from 'next/navigation';
 import clsx from 'clsx';
 import {
     PresentationChartLineIcon,
-    TicketIcon
+    TicketIcon,
+    BeakerIcon,
   } from "@heroicons/react/24/solid";
 
 const links = [
@@ -18,6 +19,11 @@ const links = [
         name: 'Tickets',
         href: '/tickets',
         icon: TicketIcon,
+    },
+    {
+        name: 'Matched Algorithm',
+        href: '/matched-algorithm',
+        icon: BeakerIcon,
     },
 ];
 
