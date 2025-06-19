@@ -34,31 +34,37 @@ export default function NavLinks() {
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
+  // Reusable function to render links
+  const renderLinks = (onClick?: () => void) => {
+    return links.map((link) => {
+      const LinkIcon = link.icon;
+      const isActive = pathname === link.href;
+      return (
+        <Link
+          key={link.name}
+          href={link.href}
+          onClick={onClick} // Optional onClick handler for mobile menu
+          className={clsx(
+            "flex h-10 items-center justify-start gap-1 p-3 rounded-md",
+            {
+              "bg-gray-300 dark:bg-gray-600": isActive,
+              "hover:bg-gray-200 dark:hover:bg-gray-800": !isActive,
+            }
+          )}
+        >
+          <LinkIcon className="w-5" />
+          <p className="block">{link.name}</p>
+        </Link>
+      );
+    });
+  };
+
   return (
     <nav className="shadow-sm relative">
       <div className="max-w-7xl mx-auto px-4 py-3 flex justify-center items-center">
         {/* Desktop Menu */}
         <div className="hidden md:flex items-center space-x-6">
-          {links.map((link) => {
-            const LinkIcon = link.icon;
-            const isActive = pathname === link.href;
-            return (
-              <Link
-                key={link.name}
-                href={link.href}
-                className={clsx(
-                  "flex h-10 items-center justify-start gap-1 p-3 rounded-md",
-                  {
-                    "bg-gray-300 dark:bg-gray-600": isActive,
-                    "hover:bg-gray-200 dark:hover:bg-gray-800": !isActive,
-                  }
-                )}
-              >
-                <LinkIcon className="w-5" />
-                <p className="block">{link.name}</p>
-              </Link>
-            );
-          })}
+            {renderLinks()}
         </div>
 
         {/* Mobile Menu Toggle */}
@@ -79,27 +85,7 @@ export default function NavLinks() {
       {/* Mobile Menu */}
       {mobileMenuOpen && (
         <div className="absolute bg-black md:hidden px-4 py-4 pb-4 space-y-2 z-10 w-80">
-          {links.map((link) => {
-            const LinkIcon = link.icon;
-            const isActive = pathname === link.href;
-            return (
-              <Link
-                key={link.name}
-                href={link.href}
-                onClick={() => setMobileMenuOpen(false)}
-                className={clsx(
-                  "flex h-10 items-center justify-start gap-1 p-3 rounded-md",
-                  {
-                    "bg-gray-300 dark:bg-gray-600": isActive,
-                    "hover:bg-gray-200 dark:hover:bg-gray-800": !isActive,
-                  }
-                )}
-              >
-                <LinkIcon className="w-5" />
-                <p className="block">{link.name}</p>
-              </Link>
-            );
-          })}
+          {renderLinks()}
         </div>
       )}
     </nav>
