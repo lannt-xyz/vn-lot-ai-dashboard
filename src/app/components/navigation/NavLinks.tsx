@@ -43,7 +43,7 @@ export default function NavLinks() {
         <Link
           key={link.name}
           href={link.href}
-          onClick={onClick} // Optional onClick handler for mobile menu
+          onClick={onClick}
           className={clsx(
             "flex h-10 items-center justify-start gap-1 p-3 rounded-md",
             {
@@ -85,7 +85,7 @@ export default function NavLinks() {
       {/* Mobile Menu */}
       {mobileMenuOpen && (
         <div className="absolute bg-black md:hidden px-4 py-4 pb-4 space-y-2 z-10 w-80">
-          {renderLinks()}
+          {renderLinks(() => {setMobileMenuOpen(!mobileMenuOpen)})}
         </div>
       )}
     </nav>
