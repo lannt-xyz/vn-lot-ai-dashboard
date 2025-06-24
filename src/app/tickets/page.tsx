@@ -39,7 +39,7 @@ export default function Tickets() {
     if (!selectedDate) {
       return;
     }
-    const { monthStartDate, monthEndDate } = getMonthStartEndFromDate(selectedDate);
+    const { monthStartDate, monthEndDate } = getMonthStartEndFromDate(selectedDate, false);
 
     getTicketTrigger({
       startDate: format(monthStartDate, DATE_FORMATS.YYYYMMDD_DASH),
