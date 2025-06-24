@@ -8,8 +8,20 @@ interface MatchedChartProps {
     rawData?: MatchedChartData[] | undefined;
 }
 
+const defaultColors = ['#ff0000', '#00ff00', '#400C85', '#0000ff', '#bc6c25', '#ff00ff', '#ff7f00', '#00ffff'];
+
+// Helper function to convert text to Title Case
+const toTitleCase = (text: string) => {
+    return text
+        .toLowerCase()
+        .split(' ')
+        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ');
+};
+
 const MatchedChart: React.FC<MatchedChartProps> = ({ rawData = [] }) => {
     const [data, setData] = useState<MatchedChartData[]>([]);
+    const [datasetTypes, setDatasetTypes] = useState<string[]>([]);
     useEffect(() => {
         // Step 1: Extract dates
         const dates = rawData.map((x: MatchedChartData) => x.date);
@@ -18,15 +30,13 @@ const MatchedChart: React.FC<MatchedChartProps> = ({ rawData = [] }) => {
         const uniqueDates = Array.from(new Set(dates)).sort((a, b) => new Date(a).getTime() - new Date(b).getTime());
 
         // Step 3: Define dataset types and labels
-        const datasetTypes = ['cycle', 'absent', 'combine', 'common', 'first', 'rfc', 'mnb', 'xgb'];
-        const datasetLabels = ['Cycle', 'Absent', 'Combine', 'Common', 'First', 'RFC', 'MNB', 'XGB'];
-        const colors = ['#ff0000', '#00ff00', '#400C85', '#0000ff', '#bc6c25', '#ff00ff', '#ff7f00', '#00ffff'];
+        const datasetTypes = Array.from(new Set(rawData.map((x: MatchedChartData) => x.type))).sort();
+        setDatasetTypes(datasetTypes);
 
         // Step 4: Prepare datasets
         const datasets = datasetTypes.map((type, index) => ({
             type,
-            label: datasetLabels[index],
-            color: colors[index],
+            color: defaultColors[index],
             data: uniqueDates.map((date) => {
                 const entry = rawData.find((x: MatchedChartData) => x.date === date && x.type === type);
                 return entry ? entry.count : 0; // Default to 0 if no data for the date
@@ -76,14 +86,18 @@ const MatchedChart: React.FC<MatchedChartProps> = ({ rawData = [] }) => {
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="date" />
                     <YAxis />
-                    <Tooltip />
-                    <Legend />
-                    {['cycle', 'absent', 'combine', 'common', 'first', 'rfc', 'mnb', 'xgb'].map((type, index) => (
+                    <Tooltip
+                        formatter={(value, name) => [value, toTitleCase(name as string)]} // Format tooltip labels to Title Case
+                    />
+                    <Legend 
+                        formatter={(value) => toTitleCase(value as string)} // Format legend labels to Title Case
+                    />
+                    {datasetTypes.map((type, index) => (
                         <Line
-                            key={type}
+                            key={type + index}
                             type="monotone"
                             dataKey={type}
-                            stroke={['#ff0000', '#00ff00', '#400C85', '#0000ff', '#bc6c25', '#ff00ff', '#ff7f00', '#00ffff'][index]}
+                            stroke={defaultColors[index]}
                             strokeWidth={2}
                             dot={false}
                         >

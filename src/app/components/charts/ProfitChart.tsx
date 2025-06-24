@@ -17,7 +17,7 @@ const ProfitChart: React.FC<ProfitChartProps> = ({ rawData }) => {
         }
 
         // Transform data for the chart
-        const transformedData: ProfitChartBar[] = Object.keys(rawData).map((key) => {
+        const transformedData: ProfitChartBar[] = Object.keys(rawData).sort().map((key) => {
             const totalPay = rawData[key].find((item) => item.label === 'Total Pay')?.value || 0;
             const totalWinning = rawData[key].find((item) => item.label === 'Total Winning')?.value || 0;
             const profit = totalWinning - totalPay;
