@@ -1,15 +1,15 @@
 'use client';
 
-import { useEffect } from "react";
-import MatchedChart from "./components/charts/MatchedChart";
-import ProfitChart from "./components/charts/ProfitChart";
-import { useLazyGetMatchedQuery, useLazyGetProfitQuery } from "./apis/dashboard";
 import { format } from "date-fns";
-import { DATE_FORMATS } from "./utils/constant";
+import { useEffect } from "react";
 import { useSelector } from "react-redux";
-import { selectSelectedDate } from "./redux/slice/yearMonthSlice";
-import { getMonthStartEndFromDate } from "./utils/DateUtils";
+import { useLazyGetMatchedQuery, useLazyGetProfitQuery } from "./apis/dashboard";
+import MatchedChartStack from "./components/charts/MatchedChartStack";
+import ProfitChart from "./components/charts/ProfitChart";
 import useLoading from "./hook/useLoading";
+import { selectSelectedDate } from "./redux/slice/yearMonthSlice";
+import { DATE_FORMATS } from "./utils/constant";
+import { getMonthStartEndFromDate } from "./utils/DateUtils";
 
 export default function Home() {
   const [triggerGetProfit, { isFetching: profitFetching, data: profitData }] = useLazyGetProfitQuery();
@@ -53,7 +53,8 @@ export default function Home() {
         <ProfitChart rawData={profitData ?? {}} />
       </div>
       <div className="flex h-full w-full">
-        <MatchedChart rawData={matchedData ?? []} />
+        {/* <MatchedChart rawData={matchedData ?? []} /> */}
+        <MatchedChartStack rawData={matchedData ?? []} />
       </div>
     </div>
   );
