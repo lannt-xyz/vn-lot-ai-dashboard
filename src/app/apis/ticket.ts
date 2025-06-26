@@ -1,7 +1,7 @@
 import { Ticket } from "../global";
 import { baseApi } from "./baseApi";
 
-export const dashboardApiSlice = baseApi.injectEndpoints({
+export const ticketApiSlice = baseApi.injectEndpoints({
     endpoints: (build) => ({
         getTickets: build.query<Ticket[], { startDate: string, endDate: string }>({
             query: ({ startDate, endDate }) => `/tickets?startDate=${encodeURI(startDate)}&endDate=${encodeURI(endDate)}`,
@@ -11,4 +11,4 @@ export const dashboardApiSlice = baseApi.injectEndpoints({
 
 export const {
     useLazyGetTicketsQuery,
- } = dashboardApiSlice;
+ } = ticketApiSlice;

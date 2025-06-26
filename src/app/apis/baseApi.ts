@@ -18,8 +18,7 @@ const baseQuery = fetchBaseQuery({
 });
 
 export const TAG_TYPES = {
-  MINUTES: 'Minutes',
-  DICTIONARY: 'Dictionary',
+  NO: "",
 } as const;
 
 export const baseApi = createApi({
