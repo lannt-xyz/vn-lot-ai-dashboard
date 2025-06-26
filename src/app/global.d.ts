@@ -26,6 +26,13 @@ export interface MatchedChartData {
     count: number;
 }
 
+export interface AlgorithmChartBar {
+    name: string;
+    count: number;
+    profit: number;
+    color: string;
+}
+
 export interface DataRow {
     [key: string]: string | ReactNode;
 }
@@ -47,4 +54,10 @@ export interface Ticket {
     matchedCount: number;
     pay: number;
     win: number;
+}
+
+export interface MatchedAlgorithmItem {
+    type: string;
+    count: number;
+    profit: number;
 }

@@ -3,21 +3,11 @@
 import React, { useEffect, useState } from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, LabelList } from 'recharts';
 import { MatchedChartData } from '../../global';
+import { DEFAULT_COLORS } from '@/app/utils/constant';
 
 interface MatchedChartProps {
     rawData?: MatchedChartData[] | undefined;
 }
-
-const defaultColors = [
-    'rgba(255, 0, 0, 0.7)',   // Red with 70% opacity
-    'rgba(0, 255, 0, 0.7)',   // Green with 70% opacity
-    'rgba(64, 12, 133, 0.7)', // Purple with 70% opacity
-    'rgba(0, 0, 255, 0.7)',   // Blue with 70% opacity
-    'rgba(188, 108, 37, 0.7)',// Brown with 70% opacity
-    'rgba(255, 0, 255, 0.7)', // Magenta with 70% opacity
-    'rgba(255, 127, 0, 0.7)', // Orange with 70% opacity
-    'rgba(0, 255, 255, 0.7)', // Cyan with 70% opacity
-];
 
 // Helper function to convert text to Title Case
 const toTitleCase = (text: string) => {
@@ -76,6 +66,10 @@ const MatchedChartStack: React.FC<MatchedChartProps> = ({ rawData = [] }) => {
         setData(transformedData);
     }, [rawData]);
 
+    if (!data || data.length === 0) {
+        return <div className='w-full h-96 flex items-center justify-center'>Loading...</div>;
+    }
+
     return (
         <div className="w-full h-96">
             <ResponsiveContainer>
@@ -102,7 +96,7 @@ const MatchedChartStack: React.FC<MatchedChartProps> = ({ rawData = [] }) => {
                             key={type}
                             dataKey={type}
                             stackId="a" // Stack all bars together
-                            fill={defaultColors[index]}
+                            fill={DEFAULT_COLORS[index % DEFAULT_COLORS.length]} // Use default colors
                         >
                             <LabelList dataKey={type} content={renderCustomLabel} />
                         </Bar>

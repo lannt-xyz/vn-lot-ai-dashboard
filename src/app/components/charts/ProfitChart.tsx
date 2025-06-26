@@ -33,7 +33,7 @@ const ProfitChart: React.FC<ProfitChartProps> = ({ rawData }) => {
         setData(transformedData);
     }, [rawData]);
 
-    if (!rawData) {
+    if (!data || data.length === 0) {
         return <div className='w-full h-96 flex items-center justify-center'>Loading...</div>;
     }
 
@@ -62,8 +62,8 @@ const ProfitChart: React.FC<ProfitChartProps> = ({ rawData }) => {
                     data={data}
                     margin={{
                         top: 20,
-                        right: 30,
-                        left: 20,
+                        right: 10,
+                        left: 10,
                         bottom: 5,
                     }}
                 >
