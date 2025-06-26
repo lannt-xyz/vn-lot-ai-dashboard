@@ -7,6 +7,7 @@ import CircularProgress from './components/progess/CircularProgress';
 import "./globals.css";
 import { StoreProvider } from "./StoreProvider";
 import DarkModeScript from './DarkModeScript';
+import TodayResultStatus from './components/progess/TodayResultStatus';
 
 export const metadata: Metadata = {
   title: "Vnlot Dashboard",
@@ -45,6 +46,9 @@ export default function RootLayout({
                 </div>
                 <div className='flex flex-row items-center pl-6'>
                   <DatePickerWrapper />
+                </div>
+                <div className='flex flex-row items-center pl-6'>
+                  <TodayResultStatus />
                 </div>
               </div>
               <div className="flex flex-col items-center justify-center">
