@@ -12,6 +12,7 @@ const baseQuery = fetchBaseQuery({
     // }
     // headers.set("authorization", `Bearer ${accessToken}`);
     headers.set("Content-Type", "application/json");
+    headers.set("Accept-Encoding", "gzip, deflate");
 
     return headers;
   },
